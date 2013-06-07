@@ -13,6 +13,8 @@
 #include "bytes.h"
 #include "sha1.h"
 
+#include <cstdint>
+
 namespace CppTotp
 {
 
