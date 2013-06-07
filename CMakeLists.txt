@@ -15,3 +15,11 @@ add_library(cppotp STATIC
 	src/libcppotp/otp.cpp
 	src/libcppotp/sha1.cpp
 )
+
+# the binary
+add_executable(gauche
+	src/gauche.cpp
+)
+target_link_libraries(gauche
+	cppotp
+)
