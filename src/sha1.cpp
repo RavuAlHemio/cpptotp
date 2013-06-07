@@ -2,6 +2,9 @@
  * @file sha1.cpp
  *
  * @brief Implementation of the SHA-1 hash.
+ *
+ * @copyright The contents of this file have been placed into the public domain;
+ * see the file COPYING for more details.
  */
 
 #include "bytes.h"

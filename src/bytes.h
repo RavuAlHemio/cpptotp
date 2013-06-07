@@ -2,6 +2,9 @@
  * @file bytes.h
  *
  * @brief Byte-related operations.
+ *
+ * @copyright The contents of this file have been placed into the public domain;
+ * see the file COPYING for more details.
  */
 
 #ifndef __CPPTOTP_BYTES_H__
