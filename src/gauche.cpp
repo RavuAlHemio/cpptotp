@@ -16,13 +16,82 @@
 #include <cstdio>
 #include <unistd.h>
 
+#include <termios.h>
+
 using namespace CppTotp;
+
+static int pwfromtty(std::string * inHere, const std::string & prompt = "Password: ", FILE * source = stdin)
+{
+	// read a password from a TTY
+
+	struct termios oldtios, newtios;
+	int ret;
+
+	// turn echoing off if possible
+	if (tcgetattr(fileno(source), &oldtios) != 0)
+	{
+		fputs("Cannot read terminal attributes.\n", stderr);
+		return 1;
+	}
+
+	newtios = oldtios;
+	newtios.c_lflag &= ~ECHO;
+
+	if (tcsetattr(fileno(source), TCSAFLUSH, &newtios) != 0)
+	{
+		fputs("Cannot set terminal attributes.\n", stderr);
+		return 2;
+	}
+
+	// output prompt
+	fputs(prompt.c_str(), stderr);
+	fflush(stderr);
+
+	for (;;)
+	{
+		ret = fgetc(source);
+
+		if (ret == EOF)
+		{
+			break;
+		}
+		else if (ret == '\n' || ret == '\r')
+		{
+			inHere->push_back('\n');
+			break;
+		}
+		else
+		{
+			inHere->push_back(ret);
+		}
+	}
+
+	// reset previous terminal properties
+	if (tcsetattr(fileno(source), TCSAFLUSH, &oldtios) != 0)
+	{
+		fputs("Cannot reset terminal attributes.\n", stderr);
+		return 3;
+	}
+
+	fputc('\n', stderr);
+
+	return 0;
+}
 
 int main(void)
 {
 	// read the key
 	std::string key;
-	std::getline(std::cin, key);
+
+	if (isatty(fileno(stdin)))
+	{
+		pwfromtty(&key, "Key: ", stdin);
+	}
+	else
+	{
+		// the fast path
+		std::getline(std::cin, key);
+	}
 
 	// right-trim
 	while (isspace(key[key.length()-1]))
