@@ -1,0 +1,6 @@
+# Vim spam
+.*.swp
+.clang_complete
+
+# C++ build spam
+*.o
