@@ -40,6 +40,12 @@ ByteString u32beToByteString(uint32_t num);
 /** Converts an unsigned 64-bit integer into a corresponding byte string. */
 ByteString u64beToByteString(uint64_t num);
 
+/** Converts a Base32 string into the correspoding byte string. */
+ByteString fromBase32(const std::string & b32str);
+
+/** Converts byte string into the corresponding Base32 string. */
+std::string toBase32(const ByteString & b32str);
+
 /** Deletes the contets of a byte string on destruction. */
 class ByteStringDestructor
 {
