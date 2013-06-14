@@ -78,6 +78,31 @@ static int pwfromtty(std::string * inHere, const std::string & prompt = "Passwor
 	return 0;
 }
 
+std::string normalizedBase32String(const std::string & unnorm)
+{
+	std::string ret;
+
+	for (char c : unnorm)
+	{
+		if (c == ' ' || c == '\n' || c == '-')
+		{
+			// skip separators
+		}
+		else if (std::islower(c))
+		{
+			// make uppercase
+			char u = std::toupper(c);
+			ret.push_back(u);
+		}
+		else
+		{
+			ret.push_back(c);
+		}
+	}
+
+	return ret;
+}
+
 int main(void)
 {
 	// read the key
@@ -93,19 +118,8 @@ int main(void)
 		std::getline(std::cin, key);
 	}
 
-	// right-trim
-	while (isspace(key[key.length()-1]))
-	{
-		key.pop_back();
-	}
-
-	if (key.length() % 8 != 0)
-	{
-		fprintf(stderr, "key length (%zu) must be divisible by 8\n", key.length());
-		return 1;
-	}
-
-	Bytes::ByteString qui = Bytes::fromBase32(key);
+	std::string normalizedKey = normalizedBase32String(key);
+	Bytes::ByteString qui = Bytes::fromUnpaddedBase32(normalizedKey);
 
 	while (1)
 	{

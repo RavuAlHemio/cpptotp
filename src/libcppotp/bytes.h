@@ -43,6 +43,12 @@ ByteString u64beToByteString(uint64_t num);
 /** Converts a Base32 string into the correspoding byte string. */
 ByteString fromBase32(const std::string & b32str);
 
+/**
+ * Converts a potentially unpadded Base32 string into the corresponding byte
+ * string.
+ */
+ByteString fromUnpaddedBase32(const std::string & b32str);
+
 /** Converts byte string into the corresponding Base32 string. */
 std::string toBase32(const ByteString & b32str);
 

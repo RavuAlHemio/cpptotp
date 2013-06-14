@@ -297,6 +297,18 @@ ByteString fromBase32(const std::string & b32str)
 	return ret;
 }
 
+ByteString fromUnpaddedBase32(const std::string & b32str)
+{
+	std::string newstr = b32str;
+
+	while (newstr.size() % 8 != 0)
+	{
+		newstr.push_back('=');
+	}
+
+	return fromBase32(newstr);
+}
+
 std::string toBase32(const ByteString & bs)
 {
 	std::string ret;
