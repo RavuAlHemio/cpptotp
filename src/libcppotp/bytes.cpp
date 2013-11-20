@@ -117,6 +117,7 @@ ByteString fromHexStringSkipUnknown(const std::string & str)
 
 		ret.push_back((top << 4) | btm);
 	}
+	return ret;
 }
 
 Bytes::ByteString u32beToByteString(uint32_t num)
