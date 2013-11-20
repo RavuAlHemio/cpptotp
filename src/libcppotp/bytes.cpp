@@ -70,6 +70,7 @@ static uint8_t hexToNibble(char c)
 	}
 	else
 	{
+		assert(0 && "not actually a hex digit");
 		return 0xff;
 	}
 }
